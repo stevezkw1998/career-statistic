@@ -15,7 +15,6 @@ function WorkExperience() {
   return (
     <div class="accordion" id="accordionExample">
         <WorkExperienceItem targetId="1"/>
-        <WorkExperienceItem targetId="2"/>
         {items && items.map((item) => {
           return <WorkExperienceItem targetId={item.id}/>
         })}
@@ -30,14 +29,30 @@ function WorkExperienceItem(props) {
     <div class="accordion-item">
       <div class="accordion-header" id="headingOne">
         <div class="item-input">
-          <div><label for="company"><strong>Company Name</strong></label>
-          <input type="text" id="company"></input></div>
-          <div><label for="title"><strong>Job Title</strong></label>
-          <input type="text" id="title"></input></div>
-          <div><label for="startdate"><strong>Start Date</strong></label>
-          <input type="date" id="startdate"></input></div>
-          <div><label for="enddate"><strong>End Date</strong></label>
-          <input type="date" id="enddate"></input></div>
+          <div class="item-singleinput">
+            <label for="company">
+              <strong>Company Name</strong>
+            </label>
+            <input type="text" id="company"></input>
+          </div>
+          <div class="item-singleinput">
+            <label for="title">
+              <strong>Job Title</strong>
+            </label>
+            <input type="text" id="title"></input>
+          </div>
+          <div class="item-singleinput">
+            <label for="startdate">
+              <strong>Start Date</strong>
+            </label>
+            <input type="month" id="startdate"></input>
+          </div>
+          <div class="item-singleinput">
+            <label for="enddate">
+              <strong>End Date</strong>
+            </label>
+            <input type="month" id="enddate"></input>
+          </div>
         </div>
         <div class="item-btn">
           <button

@@ -8,7 +8,7 @@
 .accordion .accordion-item {
   margin-top: 5px;
   margin-left: 10px;
-  width: 900px;
+  width: 920px;
 }
 .accordion .accordion-item .accordion-header {
   margin: 1rem;
@@ -17,11 +17,15 @@
 }
 .accordion .accordion-item .accordion-header .item-input {
   width: 650px;
-  height: 35px;
+  height: 30px;
   display: flex;
   flex-direction: row;
+}
+.accordion .accordion-item .accordion-header .item-input .item-singleinput {
+  margin-right: 5px;
 }
 .accordion .accordion-item .accordion-header .item-btn {
   position: relative;
   top: 15px;
+  left: 60px;
 }/*# sourceMappingURL=workExperience.css.map */
