@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
-import './App.css';
-import WorkExperience from './WorkExperience';
+import './styles/App.css';
+import WorkExperience from './components/WorkExperience';
 
 function App() {
   return (

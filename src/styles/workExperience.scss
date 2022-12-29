@@ -1,0 +1,27 @@
+.accordion {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    .accordion-item {
+        margin-top: 5px;
+        margin-left: 10px;
+        width: 900px;
+        .accordion-header {
+            margin: 1rem;
+            border: 1rem;
+            display: flex;
+            .item-input {
+                width: 650px;
+                height: 35px;
+                display: flex;
+                flex-direction: row;
+            }
+            .item-btn {
+                position: relative;
+                top: 15px;
+            }
+        }
+    }
+}
