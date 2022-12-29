@@ -2,21 +2,20 @@ import { useState } from 'react';
 import '../styles/workExperience.css';
 
 function WorkExperience() {
-  let [items, setItems] = useState([]);
+  let [items, setItems] = useState([{itemId: "1"}]);
   let [itemNum, setItemNum] = useState(2);
 
   const addItem = () => {
     setItemNum(itemNum+1)
     setItems(items.concat({
-      id: itemNum.toString(),
+      itemId: itemNum.toString(),
     }))
   }
 
   return (
     <div class="accordion" id="accordionExample">
-        <WorkExperienceItem targetId="1"/>
         {items && items.map((item) => {
-          return <WorkExperienceItem targetId={item.id}/>
+          return <WorkExperienceItem targetId={item.itemId} allItmes={items} setItems={setItems}/>
         })}
         <button type="button" class="btn btn-primary" onClick={addItem}>Add</button>
     </div>
@@ -24,6 +23,10 @@ function WorkExperience() {
 }
 
 function WorkExperienceItem(props) {
+  const deleteHandler = () => {
+    props.setItems(props.allItmes.filter(item => item.itemId !== props.targetId))
+  }
+
   const dataBsTarget = "#"+props.targetId
   return (
     <div class="accordion-item">
@@ -65,7 +68,7 @@ function WorkExperienceItem(props) {
           >
             Show Details
           </button>
-          <button type="button" class="btn btn-danger">
+          <button type="button" class="btn btn-danger" onClick={deleteHandler}>
             Delete
           </button>
         </div>
