@@ -1,9 +1,10 @@
 function Summary(props) {
-  let { workNum } = props;
+  let { workNum, workYear } = props;
 
   return (
-    <div class="Summery">
-      <h2>You have {workNum} work experiences.</h2>
+    <div className="Summery">
+      <h2>You have {workNum} periods of work history, </h2>
+      <h2>{workYear} years of experience</h2>
     </div>
   );
 }

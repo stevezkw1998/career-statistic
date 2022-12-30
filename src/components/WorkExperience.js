@@ -1,10 +1,21 @@
 import { useState } from "react";
 import "../styles/workExperience.css";
+import getYearBetweenTwoDate from "../helpers";
 
 function WorkExperience(props) {
-  let { workNum, setWorkNum } = props;
+  let { workNum, setWorkNum, setWorkYear } = props;
   let [items, setItems] = useState([{ itemId: "1" }]);
   let [itemNum, setItemNum] = useState(2);
+
+  let year = 0;
+  if (items) {
+    items.forEach(item => {
+      if (item.startdate && item.enddate) {
+        year = year + getYearBetweenTwoDate(item.startdate, item.enddate)
+      }
+    })
+  }
+  setWorkYear(year)
 
   const addItem = () => {
     setItemNum(itemNum + 1);
@@ -17,20 +28,20 @@ function WorkExperience(props) {
   };
 
   return (
-    <div class="accordion" id="accordionExample">
+    <div className="accordion" id="accordionExample">
       {items &&
         items.map((item) => {
           return (
             <WorkExperienceItem
               targetId={item.itemId}
-              allItmes={items}
+              allItems={items}
               setItems={setItems}
               workNum={workNum}
               setWorkNum={setWorkNum}
             />
           );
         })}
-      <button type="button" class="btn btn-primary" onClick={addItem}>
+      <button type="button" className="btn btn-primary" onClick={addItem}>
         Add
       </button>
     </div>
@@ -38,7 +49,13 @@ function WorkExperience(props) {
 }
 
 function WorkExperienceItem(props) {
-  let { targetId, allItmes, setItems, workNum, setWorkNum } = props;
+  let {
+    targetId,
+    allItems,
+    setItems,
+    workNum,
+    setWorkNum,
+  } = props;
   let [company, setCompany] = useState("");
   let [title, setTitle] = useState("");
   let [startdate, setStartdate] = useState(null);
@@ -51,23 +68,43 @@ function WorkExperienceItem(props) {
     setTitle(e.target.value);
   };
   const handleChangeStartDate = (e) => {
-    setStartdate(e.target.value);
+    let date = new Date(e.target.value);
+    setStartdate(date);
+    if (allItems) {
+      setItems(allItems.map((item) => {
+        if (item.itemId === targetId) {
+          return {...item, startdate: date }
+        } else {
+          return item
+        }
+      }));
+    };
   };
   const handleChangeEndDate = (e) => {
-    setEnddate(e.target.value);
+    let date = new Date(e.target.value);
+    setEnddate(date);
+    if (allItems) {
+      setItems(allItems.map((item) => {
+        if (item.itemId === targetId) {
+          return {...item, enddate: date }
+        } else {
+          return item
+        }
+      }));
+    };
   };
   const deleteHandler = () => {
-    setItems(allItmes.filter((item) => item.itemId !== targetId));
+    setItems(allItems.filter((item) => item.itemId !== targetId));
     setWorkNum(workNum - 1);
   };
 
   const dataBsTarget = "#" + targetId;
   return (
-    <div class="accordion-item">
-      <div class="accordion-header" id="headingOne">
-        <div class="item-input">
-          <div class="item-singleinput">
-            <label for="company">
+    <div className="accordion-item">
+      <div className="accordion-header" id="headingOne">
+        <div className="item-input">
+          <div className="item-singleinput">
+            <label htmlFor="company">
               <strong>Company Name</strong>
             </label>
             <input
@@ -76,14 +113,14 @@ function WorkExperienceItem(props) {
               onChange={handleChangeCompany}
             ></input>
           </div>
-          <div class="item-singleinput">
-            <label for="title">
+          <div className="item-singleinput">
+            <label htmlFor="title">
               <strong>Job Title</strong>
             </label>
             <input type="text" id="title" onChange={handleChangeTitle}></input>
           </div>
-          <div class="item-singleinput">
-            <label for="startdate">
+          <div className="item-singleinput">
+            <label htmlFor="startdate">
               <strong>Start Date</strong>
             </label>
             <input
@@ -92,8 +129,8 @@ function WorkExperienceItem(props) {
               onChange={handleChangeStartDate}
             ></input>
           </div>
-          <div class="item-singleinput">
-            <label for="enddate">
+          <div className="item-singleinput">
+            <label htmlFor="enddate">
               <strong>End Date</strong>
             </label>
             <input
@@ -103,29 +140,29 @@ function WorkExperienceItem(props) {
             ></input>
           </div>
         </div>
-        <div class="item-btn">
+        <div className="item-btn">
           <button
-            class="btn btn-link"
+            className="btn btn-link"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target={dataBsTarget}
             aria-expanded="true"
-            aria-controls={props.targetId}
+            aria-controls={targetId}
           >
             Show Details
           </button>
-          <button type="button" class="btn btn-danger" onClick={deleteHandler}>
+          <button type="button" className="btn btn-danger" onClick={deleteHandler}>
             Delete
           </button>
         </div>
       </div>
       <div
-        id={props.targetId}
-        class="accordion-collapse collapse show"
+        id={targetId}
+        className="accordion-collapse collapse show"
         aria-labelledby="headingOne"
         data-bs-parent="#accordionExample"
       >
-        <div class="accordion-body">
+        <div className="accordion-body">
           <strong>This is the first item's accordion body.</strong> It is shown
           by default, until the collapse plugin adds the appropriate classes
           that we use to style each element. These classes control the overall
