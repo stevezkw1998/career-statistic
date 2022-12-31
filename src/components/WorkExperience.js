@@ -1,27 +1,34 @@
 import { useState } from "react";
 import "../styles/workExperience.css";
-import getYearBetweenTwoDate from "../helpers";
+import * as helpers from "../helpers";
 
 function WorkExperience(props) {
   let { workNum, setWorkNum, setWorkYear } = props;
-  let [items, setItems] = useState([{ itemId: "1" }]);
+  let [items, setItems] = useState([
+    { itemId: "1", company: "", title: "", startdate: null, enddate: null },
+  ]);
   let [itemNum, setItemNum] = useState(2);
 
   let year = 0;
   if (items) {
-    items.forEach(item => {
+    items.forEach((item) => {
       if (item.startdate && item.enddate) {
-        year = year + getYearBetweenTwoDate(item.startdate, item.enddate)
+        year =
+          year + helpers.getYearBetweenTwoDate(item.startdate, item.enddate);
       }
-    })
+    });
   }
-  setWorkYear(year)
+  setWorkYear(year);
 
   const addItem = () => {
     setItemNum(itemNum + 1);
     setItems(
       items.concat({
         itemId: itemNum.toString(),
+        company: "",
+        title: "",
+        startdate: null,
+        enddate: null,
       })
     );
     setWorkNum(workNum + 1);
@@ -38,6 +45,10 @@ function WorkExperience(props) {
               setItems={setItems}
               workNum={workNum}
               setWorkNum={setWorkNum}
+              company={item.company}
+              title={item.title}
+              startdate={item.startdate}
+              enddate={item.enddate}
             />
           );
         })}
@@ -55,43 +66,67 @@ function WorkExperienceItem(props) {
     setItems,
     workNum,
     setWorkNum,
+    company,
+    title,
+    startdate,
+    enddate,
   } = props;
-  let [company, setCompany] = useState("");
-  let [title, setTitle] = useState("");
-  let [startdate, setStartdate] = useState(null);
-  let [enddate, setEnddate] = useState(null);
 
   const handleChangeCompany = (e) => {
-    setCompany(e.target.value);
+    let company = e.target.value;
+    if (allItems) {
+      setItems(
+        allItems.map((item) => {
+          if (item.itemId === targetId) {
+            return { ...item, company: company };
+          } else {
+            return item;
+          }
+        })
+      );
+    }
   };
   const handleChangeTitle = (e) => {
-    setTitle(e.target.value);
+    let title = e.target.value;
+    if (allItems) {
+      setItems(
+        allItems.map((item) => {
+          if (item.itemId === targetId) {
+            return { ...item, title: title };
+          } else {
+            return item;
+          }
+        })
+      );
+    }
   };
   const handleChangeStartDate = (e) => {
     let date = new Date(e.target.value);
-    setStartdate(date);
     if (allItems) {
-      setItems(allItems.map((item) => {
-        if (item.itemId === targetId) {
-          return {...item, startdate: date }
-        } else {
-          return item
-        }
-      }));
-    };
+      setItems(
+        allItems.map((item) => {
+          if (item.itemId === targetId) {
+            return { ...item, startdate: date };
+          } else {
+            return item;
+          }
+        })
+      );
+    }
   };
   const handleChangeEndDate = (e) => {
     let date = new Date(e.target.value);
-    setEnddate(date);
     if (allItems) {
-      setItems(allItems.map((item) => {
-        if (item.itemId === targetId) {
-          return {...item, enddate: date }
-        } else {
-          return item
-        }
-      }));
-    };
+      setItems(
+        allItems.map((item) => {
+          if (item.itemId === targetId) {
+            return { ...item, enddate: date };
+          } else {
+            return item;
+          }
+        })
+      );
+    }
   };
   const deleteHandler = () => {
     setItems(allItems.filter((item) => item.itemId !== targetId));
@@ -110,6 +145,7 @@ function WorkExperienceItem(props) {
             <input
               type="text"
               id="company"
+              value={company}
               onChange={handleChangeCompany}
             ></input>
           </div>
@@ -117,7 +153,12 @@ function WorkExperienceItem(props) {
             <label htmlFor="title">
               <strong>Job Title</strong>
             </label>
-            <input type="text" id="title" onChange={handleChangeTitle}></input>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={handleChangeTitle}
+            ></input>
           </div>
           <div className="item-singleinput">
             <label htmlFor="startdate">
@@ -126,6 +167,7 @@ function WorkExperienceItem(props) {
             <input
               type="month"
               id="startdate"
+              value={helpers.dateToMouth(startdate)}
               onChange={handleChangeStartDate}
             ></input>
           </div>
@@ -136,6 +178,7 @@ function WorkExperienceItem(props) {
             <input
               type="month"
               id="enddate"
+              value={helpers.dateToMouth(enddate)}
               onChange={handleChangeEndDate}
             ></input>
           </div>
@@ -151,7 +194,11 @@ function WorkExperienceItem(props) {
           >
             Show Details
           </button>
-          <button type="button" className="btn btn-danger" onClick={deleteHandler}>
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={deleteHandler}
+          >
             Delete
           </button>
         </div>
