@@ -5,7 +5,7 @@ Quantify and visualize your professional background.
 ## Features
 
 ### Feature1
-![Feature1](/images/feature1.png)
+![Feature1](/images/feature1.jpg)
 ![Feature2](/images/feature2.png)
 
 ### Feature2
