@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../styles/workExperience.css";
 import * as helpers from "../helpers";
 import { SWETitles } from "../constant/sweTitles";
+import { programmingLanguages } from "../constant/techstack";
 
 function WorkExperience(props) {
   let {
@@ -225,6 +226,16 @@ function WorkExperienceItem(props) {
 function WorkItemDetail(props) {
   let { targetId } = props;
 
+  let [techTags, setTechTags] = useState([]);
+
+  const addTechTag = (e) => {
+    let tech = e.target.innerText;
+    console.log(tech);
+    let newTechTags = techTags.filter((tag) => tag !== tech);
+    newTechTags.push(tech);
+    setTechTags(newTechTags);
+  };
+
   return (
     <div
       id={targetId}
@@ -232,14 +243,65 @@ function WorkItemDetail(props) {
       aria-labelledby="headingOne"
       data-bs-parent="#accordionExample"
     >
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  ADD
+                </a>
+                <ul class="dropdown-menu">
+                  {programmingLanguages &&
+                    Object.keys(programmingLanguages).map((language) => {
+                      return (
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            onClick={addTechTag}
+                          >
+                            {language}
+                          </a>
+                        </li>
+                      );
+                    })}
+                </ul>
+              </li>
+              {techTags &&
+                techTags.map((language) => {
+                  return (
+                    <li
+                      style={{
+                        position: "relative",
+                        top: "7px",
+                        marginLeft: "7px",
+                      }}
+                    >
+                      <span class={programmingLanguages[language]}>
+                        {language}
+                      </span>
+                    </li>
+                  );
+                })}
+            </ul>
+          </div>
+        </div>
+      </nav>
       <div className="accordion-body">
-        <strong>This is the first item's accordion body.</strong> It is shown by
+        {/* <strong>This is the first item's accordion body.</strong> It is shown by
         default, until the collapse plugin adds the appropriate classes that we
         use to style each element. These classes control the overall appearance,
         as well as the showing and hiding via CSS transitions. You can modify
         any of this with custom CSS or overriding our default variables. It's
         also worth noting that just about any HTML can go within the{" "}
-        <code>.accordion-body</code>, though the transition does limit overflow.
+        <code>.accordion-body</code>, though the transition does limit overflow. */}
       </div>
     </div>
   );
