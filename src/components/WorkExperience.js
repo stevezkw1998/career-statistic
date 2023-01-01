@@ -43,6 +43,7 @@ function WorkExperience(props) {
         items.map((item) => {
           return (
             <WorkExperienceItem
+              key={item.itemId}
               targetId={item.itemId}
               allItems={items}
               setItems={setItems}
