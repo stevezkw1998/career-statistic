@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../styles/workExperience.css";
 import * as helpers from "../helpers";
+import { SWETitles } from "../constant/sweTitles";
 
 function WorkExperience(props) {
   let { workNum, setWorkNum, setWorkYear } = props;
@@ -54,9 +55,17 @@ function WorkExperience(props) {
             />
           );
         })}
+      ;
       <button type="button" className="btn btn-primary" onClick={addItem}>
         Add
       </button>
+      <datalist id="swe-title-list">
+        {SWETitles &&
+          SWETitles.map((title) => {
+            return <option value={title} />;
+          })}
+        ;
+      </datalist>
     </div>
   );
 }
@@ -158,6 +167,7 @@ function WorkExperienceItem(props) {
             <input
               type="text"
               id="title"
+              list="swe-title-list"
               value={title}
               onChange={handleChangeTitle}
             ></input>

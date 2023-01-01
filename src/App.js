@@ -10,7 +10,11 @@ function App() {
 
   return (
     <div className="App">
-      <WorkExperience workNum={workNum} setWorkNum={setWorkNum} setWorkYear={setWorkYear} />
+      <WorkExperience
+        workNum={workNum}
+        setWorkNum={setWorkNum}
+        setWorkYear={setWorkYear}
+      />
       <Summary workNum={workNum} workYear={workYear} />
     </div>
   );
