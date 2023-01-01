@@ -4,13 +4,15 @@ import * as helpers from "../helpers";
 import { SWETitles } from "../constant/sweTitles";
 
 function WorkExperience(props) {
-  let { workNum, setWorkNum, setWorkYear } = props;
-  let [items, setItems] = useState([
-    { itemId: "1", company: "", title: "", startdate: null, enddate: null },
-  ]);
-  let [itemNum, setItemNum] = useState(2);
-
-  console.log(items);
+  let {
+    items,
+    setItems,
+    itemNum,
+    setItemNum,
+    workNum,
+    setWorkNum,
+    setWorkYear,
+  } = props;
 
   let year = 0;
   if (items) {
@@ -56,7 +58,6 @@ function WorkExperience(props) {
             />
           );
         })}
-      ;
       <button type="button" className="btn btn-primary" onClick={addItem}>
         Add
       </button>
