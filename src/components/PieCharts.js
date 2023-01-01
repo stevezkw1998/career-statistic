@@ -7,8 +7,8 @@ function PieCharts(props) {
 
   return (
     <div className="pie-charts-group">
-      <CompanyPieChart items={items}/>
-      <TitlePieChart items={items}/>
+      <CompanyPieChart items={items} />
+      <TitlePieChart items={items} />
       <TechPieChart />
       <TechPieChart />
     </div>
@@ -18,11 +18,14 @@ function PieCharts(props) {
 function CompanyPieChart(props) {
   let { items } = props;
 
-  let labels = {}
+  let labels = {};
   if (items) {
-    items.forEach(item => {
+    items.forEach((item) => {
       if (item.company && item.startdate && item.enddate) {
-        let month = helpers.getMonthBetweenTwoDate(item.startdate, item.enddate);
+        let month = helpers.getMonthBetweenTwoDate(
+          item.startdate,
+          item.enddate
+        );
         if (item.company in labels) {
           labels[item.company] += month;
         } else {
@@ -34,12 +37,12 @@ function CompanyPieChart(props) {
   if (Object.getOwnPropertyNames(labels).length === 0) {
     return (
       <div className="pie-chart-container" id="company-pie-chart-container">
-        <h3 style={{color:"blue"}}>Company Pie Chart lacks data</h3>
+        <h3 style={{ color: "blue" }}>Company Pie Chart lacks data</h3>
       </div>
     );
   }
-  let series = Object.values(labels)
-  labels = Object.keys(labels)
+  let series = Object.values(labels);
+  labels = Object.keys(labels);
   let options = {
     chart: { type: "pie" },
     labels: labels,
@@ -55,11 +58,14 @@ function CompanyPieChart(props) {
 function TitlePieChart(props) {
   let { items } = props;
 
-  let labels = {}
+  let labels = {};
   if (items) {
-    items.forEach(item => {
+    items.forEach((item) => {
       if (item.title && item.startdate && item.enddate) {
-        let month = helpers.getMonthBetweenTwoDate(item.startdate, item.enddate);
+        let month = helpers.getMonthBetweenTwoDate(
+          item.startdate,
+          item.enddate
+        );
         if (item.title in labels) {
           labels[item.title] += month;
         } else {
@@ -71,12 +77,12 @@ function TitlePieChart(props) {
   if (Object.getOwnPropertyNames(labels).length === 0) {
     return (
       <div className="pie-chart-container" id="title-pie-chart-container">
-        <h3 style={{color:"blue"}}>Title Pie Chart lacks data</h3>
+        <h3 style={{ color: "blue" }}>Title Pie Chart lacks data</h3>
       </div>
     );
   }
-  let series = Object.values(labels)
-  labels = Object.keys(labels)
+  let series = Object.values(labels);
+  labels = Object.keys(labels);
   let options = {
     chart: { type: "pie" },
     labels: labels,
