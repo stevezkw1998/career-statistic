@@ -9,8 +9,8 @@ function PieCharts(props) {
     <div className="pie-charts-group">
       <CompanyPieChart items={items} />
       <TitlePieChart items={items} />
-      <TechPieChart />
-      <TechPieChart />
+      <TechPieChart items={items} />
+      <TechPieChart items={items} />
     </div>
   );
 }
@@ -95,15 +95,43 @@ function TitlePieChart(props) {
   );
 }
 
-function TechPieChart() {
-  let [series, setSeries] = useState([36, 12, 24]);
-  let [options, setOptions] = useState({
+function TechPieChart(props) {
+  let { items } = props;
+
+  let labels = {};
+  if (items) {
+    items.forEach((item) => {
+      if (item.techTags && item.startdate && item.enddate) {
+        let month = helpers.getMonthBetweenTwoDate(
+          item.startdate,
+          item.enddate
+        );
+        item.techTags.forEach((tech) => {
+          if (tech in labels) {
+            labels[tech] += month;
+          } else {
+            labels[tech] = month;
+          }
+        });
+      }
+    });
+  }
+  if (Object.getOwnPropertyNames(labels).length === 0) {
+    return (
+      <div className="pie-chart-container" id="tech-pie-chart-container">
+        <h3 style={{ color: "blue" }}>Tech Pie Chart lacks data</h3>
+      </div>
+    );
+  }
+  let series = Object.values(labels);
+  labels = Object.keys(labels);
+  let options = {
     chart: { type: "pie" },
-    labels: ["Python", "JavaScript", "Go"],
-  });
+    labels: labels,
+  };
 
   return (
-    <div className="pie-chart-container" id="title-pie-chart-container">
+    <div className="pie-chart-container" id="tech-pie-chart-container">
       <Chart options={options} series={series} type="pie" width={380} />
     </div>
   );

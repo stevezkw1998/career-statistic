@@ -35,6 +35,7 @@ function WorkExperience(props) {
         title: "",
         startdate: null,
         enddate: null,
+        techTags: [],
       })
     );
     setWorkNum(workNum + 1);
@@ -56,6 +57,7 @@ function WorkExperience(props) {
               title={item.title}
               startdate={item.startdate}
               enddate={item.enddate}
+              techTags={item.techTags}
             />
           );
         })}
@@ -84,6 +86,7 @@ function WorkExperienceItem(props) {
     title,
     startdate,
     enddate,
+    techTags,
   } = props;
 
   const handleChangeCompany = (e) => {
@@ -218,27 +221,50 @@ function WorkExperienceItem(props) {
           </button>
         </div>
       </div>
-      <WorkItemDetail targetId={targetId}></WorkItemDetail>
+      <WorkItemDetail
+        targetId={targetId}
+        allItems={allItems}
+        setItems={setItems}
+        techTags={techTags}
+      ></WorkItemDetail>
     </div>
   );
 }
 
 function WorkItemDetail(props) {
-  let { targetId } = props;
-
-  let [techTags, setTechTags] = useState([]);
+  let { targetId, allItems, setItems, techTags } = props;
 
   const addTechTag = (e) => {
     let tech = e.target.innerText;
     let newTechTags = techTags.filter((tag) => tag !== tech);
     newTechTags.push(tech);
-    setTechTags(newTechTags);
+    if (allItems) {
+      setItems(
+        allItems.map((item) => {
+          if (item.itemId === targetId) {
+            return { ...item, techTags: newTechTags };
+          } else {
+            return item;
+          }
+        })
+      );
+    }
   };
 
   const removeTechTag = (e) => {
     let tech = e.target.parentElement.innerText;
-    console.log(tech);
-    setTechTags(techTags.filter((tag) => tag !== tech));
+    let newTechTags = techTags.filter((tag) => tag !== tech);
+    if (allItems) {
+      setItems(
+        allItems.map((item) => {
+          if (item.itemId === targetId) {
+            return { ...item, techTags: newTechTags };
+          } else {
+            return item;
+          }
+        })
+      );
+    }
   };
 
   return (

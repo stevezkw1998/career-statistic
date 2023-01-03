@@ -7,7 +7,14 @@ import { PieCharts } from "./components/PieCharts";
 
 function App() {
   let [items, setItems] = useState([
-    { itemId: "1", company: "", title: "", startdate: null, enddate: null },
+    {
+      itemId: "1",
+      company: "",
+      title: "",
+      startdate: null,
+      enddate: null,
+      techTags: [],
+    },
   ]);
   let [itemNum, setItemNum] = useState(2);
   let [workNum, setWorkNum] = useState(1);
