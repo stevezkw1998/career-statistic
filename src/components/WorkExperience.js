@@ -230,10 +230,15 @@ function WorkItemDetail(props) {
 
   const addTechTag = (e) => {
     let tech = e.target.innerText;
-    console.log(tech);
     let newTechTags = techTags.filter((tag) => tag !== tech);
     newTechTags.push(tech);
     setTechTags(newTechTags);
+  };
+
+  const removeTechTag = (e) => {
+    let tech = e.target.parentElement.innerText;
+    console.log(tech);
+    setTechTags(techTags.filter((tag) => tag !== tech));
   };
 
   return (
@@ -286,6 +291,13 @@ function WorkItemDetail(props) {
                     >
                       <span class={programmingLanguages[language]}>
                         {language}
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="alert"
+                          aria-label="Close"
+                          onClick={removeTechTag}
+                        ></button>
                       </span>
                     </li>
                   );
