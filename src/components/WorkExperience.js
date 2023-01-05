@@ -185,7 +185,7 @@ function WorkExperienceItem(props) {
             <input
               type="month"
               id="startdate"
-              value={helpers.dateToMouth(startdate)}
+              value={helpers.dateToMonth(startdate)}
               onChange={handleChangeStartDate}
             ></input>
           </div>
@@ -196,7 +196,7 @@ function WorkExperienceItem(props) {
             <input
               type="month"
               id="enddate"
-              value={helpers.dateToMouth(enddate)}
+              value={helpers.dateToMonth(enddate)}
               onChange={handleChangeEndDate}
             ></input>
           </div>
