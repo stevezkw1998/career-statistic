@@ -3,5 +3,9 @@
   flex-wrap: wrap;
   justify-content: center;
   align-content: space-between;
+  align-self: center;
   text-align: start;
-}/*# sourceMappingURL=pieCharts.css.map */
+  width: 760px;
+}
+
+/*# sourceMappingURL=pieCharts.css.map */
