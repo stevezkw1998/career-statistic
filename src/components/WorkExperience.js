@@ -1,7 +1,7 @@
-import { useState } from "react";
 import "../styles/workExperience.css";
 import * as helpers from "../helpers";
 import { SWETitles } from "../constant/sweTitles";
+import { SWETypes } from "../constant/sweTypes";
 import { programmingLanguages } from "../constant/techstack";
 
 function WorkExperience(props) {
@@ -35,6 +35,7 @@ function WorkExperience(props) {
         title: "",
         startdate: null,
         enddate: null,
+        jobtype: [],
         techTags: [],
       })
     );
@@ -57,6 +58,7 @@ function WorkExperience(props) {
               title={item.title}
               startdate={item.startdate}
               enddate={item.enddate}
+              jobtype={item.jobtype}
               techTags={item.techTags}
             />
           );
@@ -68,6 +70,13 @@ function WorkExperience(props) {
         {SWETitles &&
           SWETitles.map((title) => {
             return <option value={title} />;
+          })}
+        ;
+      </datalist>
+      <datalist id="swe-type-list">
+        {SWETypes &&
+          SWETypes.map((jobtype) => {
+            return <option value={jobtype} />;
           })}
         ;
       </datalist>
@@ -86,6 +95,7 @@ function WorkExperienceItem(props) {
     title,
     startdate,
     enddate,
+    jobtype,
     techTags,
   } = props;
 
@@ -225,6 +235,7 @@ function WorkExperienceItem(props) {
         targetId={targetId}
         allItems={allItems}
         setItems={setItems}
+        jobtype={jobtype}
         techTags={techTags}
       ></WorkItemDetail>
     </div>
@@ -232,7 +243,40 @@ function WorkExperienceItem(props) {
 }
 
 function WorkItemDetail(props) {
-  let { targetId, allItems, setItems, techTags } = props;
+  let { targetId, allItems, setItems, jobtype, techTags } = props;
+
+  const addSWEType = (e) => {
+    let addingType = e.target.innerText;
+    let newjobtype = jobtype.filter((typeItem) => typeItem !== addingType);
+    newjobtype.push(addingType);
+    if (allItems) {
+      setItems(
+        allItems.map((item) => {
+          if (item.itemId === targetId) {
+            return { ...item, jobtype: newjobtype };
+          } else {
+            return item;
+          }
+        })
+      );
+    }
+  };
+
+  const removeSWEType = (e) => {
+    let addingType = e.target.innerText;
+    let newjobtype = jobtype.filter((typeItem) => typeItem !== addingType);
+    if (allItems) {
+      setItems(
+        allItems.map((item) => {
+          if (item.itemId === targetId) {
+            return { ...item, jobtype: newjobtype };
+          } else {
+            return item;
+          }
+        })
+      );
+    }
+  };
 
   const addTechTag = (e) => {
     let tech = e.target.innerText;
@@ -277,6 +321,58 @@ function WorkItemDetail(props) {
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  TYPE
+                </a>
+                <ul class="dropdown-menu">
+                  {SWETypes &&
+                    SWETypes.map((typeItem) => {
+                      return (
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            onClick={addSWEType}
+                          >
+                            {typeItem}
+                          </a>
+                        </li>
+                      );
+                    })}
+                </ul>
+              </li>
+              {jobtype &&
+                jobtype.map((typeItem) => {
+                  return (
+                    <li
+                      style={{
+                        position: "relative",
+                        top: "7px",
+                        marginLeft: "7px",
+                      }}
+                    >
+                      <span class="badge rounded-pill text-bg-light">
+                        {typeItem}
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="alert"
+                          aria-label="Close"
+                          onClick={removeSWEType}
+                        ></button>
+                      </span>
+                    </li>
+                  );
+                })}
+            </ul>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item dropdown">
                 <a

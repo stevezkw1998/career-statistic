@@ -13,6 +13,7 @@ function App() {
       title: "",
       startdate: null,
       enddate: null,
+      jobtype: [],
       techTags: [],
     },
   ]);
