@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Chart from "react-apexcharts";
+import "../styles/pieCharts.css";
 import * as helpers from "../helpers";
 
 function PieCharts(props) {
