@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Chart from "react-apexcharts";
 import "../styles/pieCharts.css";
 import * as helpers from "../helpers";
@@ -10,7 +9,7 @@ function PieCharts(props) {
     <div className="pie-charts-group">
       <CompanyPieChart items={items} />
       <TitlePieChart items={items} />
-      <TechPieChart items={items} />
+      <TypePieChart items={items} />
       <TechPieChart items={items} />
     </div>
   );
@@ -91,6 +90,48 @@ function TitlePieChart(props) {
 
   return (
     <div className="pie-chart-container" id="title-pie-chart-container">
+      <Chart options={options} series={series} type="pie" width={380} />
+    </div>
+  );
+}
+
+function TypePieChart(props) {
+  let { items } = props;
+
+  let labels = {};
+  if (items) {
+    items.forEach((item) => {
+      if (item.jobtype && item.startdate && item.enddate) {
+        let month = helpers.getMonthBetweenTwoDate(
+          item.startdate,
+          item.enddate
+        );
+        item.jobtype.forEach((subItem) => {
+          if (subItem in labels) {
+            labels[subItem] += month;
+          } else {
+            labels[subItem] = month;
+          }
+        });
+      }
+    });
+  }
+  if (Object.getOwnPropertyNames(labels).length === 0) {
+    return (
+      <div className="pie-chart-container" id="tech-pie-chart-container">
+        <h3 style={{ color: "blue" }}>Type Pie Chart lacks data</h3>
+      </div>
+    );
+  }
+  let series = Object.values(labels);
+  labels = Object.keys(labels);
+  let options = {
+    chart: { type: "pie" },
+    labels: labels,
+  };
+
+  return (
+    <div className="pie-chart-container" id="tech-pie-chart-container">
       <Chart options={options} series={series} type="pie" width={380} />
     </div>
   );
