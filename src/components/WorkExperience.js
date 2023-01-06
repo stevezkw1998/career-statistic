@@ -263,7 +263,7 @@ function WorkItemDetail(props) {
   };
 
   const removeSWEType = (e) => {
-    let addingType = e.target.innerText;
+    let addingType = e.target.parentElement.innerText;
     let newjobtype = jobtype.filter((typeItem) => typeItem !== addingType);
     if (allItems) {
       setItems(
