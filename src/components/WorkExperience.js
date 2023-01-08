@@ -1,4 +1,5 @@
 import "../styles/workExperience.css";
+import { liveAlert } from "../js/alerts";
 import * as helpers from "../helpers";
 import { SWETitles } from "../constant/sweTitles";
 import { SWETypes } from "../constant/sweTypes";
@@ -133,7 +134,15 @@ function WorkExperienceItem(props) {
       setItems(
         allItems.map((item) => {
           if (item.itemId === targetId) {
-            return { ...item, startdate: date };
+            if (item.enddate && item.enddate.getTime() < date.getTime()) {
+              liveAlert(
+                "Error: Start date can not later than end date.",
+                "danger"
+              );
+              return item;
+            } else {
+              return { ...item, startdate: date };
+            }
           } else {
             return item;
           }
@@ -147,7 +156,15 @@ function WorkExperienceItem(props) {
       setItems(
         allItems.map((item) => {
           if (item.itemId === targetId) {
-            return { ...item, enddate: date };
+            if (item.startdate && item.startdate.getTime() > date.getTime()) {
+              liveAlert(
+                "Error: End date can not earlier than end date.",
+                "danger"
+              );
+              return item;
+            } else {
+              return { ...item, enddate: date };
+            }
           } else {
             return item;
           }
@@ -245,10 +262,33 @@ function WorkExperienceItem(props) {
 function WorkItemDetail(props) {
   let { targetId, allItems, setItems, jobtype, techTags } = props;
 
+  //if you have over 3 types, then you would auto become 'Generalist'
   const addSWEType = (e) => {
     let addingType = e.target.innerText;
-    let newjobtype = jobtype.filter((typeItem) => typeItem !== addingType);
+    let newjobtype = jobtype.filter((typeItem) => {
+      if (typeItem === "Generalist" && addingType !== "Generalist") {
+        liveAlert(
+          "Warning: When you add new job type, it will auto overwrite existed 'Generalist'.",
+          "warning"
+        );
+      }
+      return typeItem !== addingType && typeItem !== "Generalist";
+    });
     newjobtype.push(addingType);
+    if (addingType === "Generalist" || newjobtype.length > 3) {
+      if (addingType === "Generalist") {
+        liveAlert(
+          "Info: When you add 'Generalist', it will auto overwrite any else.",
+          "info"
+        );
+      } else if (newjobtype.length > 3) {
+        liveAlert(
+          "Info: When you add over 3 job types, it will auto upgrade to 'Generalist'.",
+          "info"
+        );
+      }
+      newjobtype = ["Generalist"];
+    }
     if (allItems) {
       setItems(
         allItems.map((item) => {

@@ -12,6 +12,7 @@ const SWETypes = [
   "SRE",
   "Data eng",
   "DB admin",
+  "Generalist",
 ];
 
 export { SWETypes };
