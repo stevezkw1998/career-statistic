@@ -249,6 +249,7 @@ function WorkExperienceItem(props) {
         </div>
       </div>
       <WorkItemDetail
+        key={targetId}
         targetId={targetId}
         allItems={allItems}
         setItems={setItems}

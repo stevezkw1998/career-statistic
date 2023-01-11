@@ -1,5 +1,6 @@
 import Chart from "react-apexcharts";
 import "../styles/pieCharts.css";
+import { liveAlert } from "../js/alerts";
 import * as helpers from "../helpers";
 
 function PieCharts(props) {
@@ -45,9 +46,24 @@ function SinglePieChart(props) {
     });
   }
   if (Object.getOwnPropertyNames(labels).length === 0) {
+    // liveAlert(
+    //   `Primary: Enter adequate information to generate ${piechartType} pie chart.`,
+    //   "primary"
+    // );
     return (
       <div className="pie-chart-container" id="company-pie-chart-container">
-        <h3 style={{ color: "blue" }}>{piechartType} Pie Chart lacks data</h3>
+        <div class="alert alert-primary alert-dismissible" role="alert">
+          <div>
+            Primary: Enter adequate information to generate {piechartType} pie
+            chart.
+          </div>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
       </div>
     );
   }
