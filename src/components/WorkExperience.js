@@ -5,6 +5,12 @@ import { SWETitles } from "../constant/sweTitles";
 import { SWETypes } from "../constant/sweTypes";
 import { programmingLanguages } from "../constant/techstack";
 
+const updateLocalStorageData = (fieldName, fieldValue) => {
+  let data = JSON.parse(localStorage.getItem("data"));
+  data[fieldName] = fieldValue;
+  localStorage.setItem("data", JSON.stringify(data));
+};
+
 function WorkExperience(props) {
   let {
     items,
@@ -29,18 +35,20 @@ function WorkExperience(props) {
 
   const addItem = () => {
     setItemNum(itemNum + 1);
-    setItems(
-      items.concat({
-        itemId: itemNum.toString(),
-        company: "",
-        title: "",
-        startdate: null,
-        enddate: null,
-        jobtype: [],
-        techTags: [],
-      })
-    );
+    updateLocalStorageData("itemNum", itemNum + 1);
+    let updateItems = items.concat({
+      itemId: itemNum.toString(),
+      company: "",
+      title: "",
+      startdate: null,
+      enddate: null,
+      jobtype: [],
+      techTags: [],
+    });
+    setItems(updateItems);
+    updateLocalStorageData("items", updateItems);
     setWorkNum(workNum + 1);
+    updateLocalStorageData("workNum", workNum + 1);
   };
 
   return (
@@ -103,78 +111,81 @@ function WorkExperienceItem(props) {
   const handleChangeCompany = (e) => {
     let company = e.target.value;
     if (allItems) {
-      setItems(
-        allItems.map((item) => {
-          if (item.itemId === targetId) {
-            return { ...item, company: company };
-          } else {
-            return item;
-          }
-        })
-      );
+      let updateItems = allItems.map((item) => {
+        if (item.itemId === targetId) {
+          return { ...item, company: company };
+        } else {
+          return item;
+        }
+      });
+      setItems(updateItems);
+      updateLocalStorageData("items", updateItems);
     }
   };
   const handleChangeTitle = (e) => {
     let title = e.target.value;
     if (allItems) {
-      setItems(
-        allItems.map((item) => {
-          if (item.itemId === targetId) {
-            return { ...item, title: title };
-          } else {
-            return item;
-          }
-        })
-      );
+      let updateItems = allItems.map((item) => {
+        if (item.itemId === targetId) {
+          return { ...item, title: title };
+        } else {
+          return item;
+        }
+      });
+      setItems(updateItems);
+      updateLocalStorageData("items", updateItems);
     }
   };
   const handleChangeStartDate = (e) => {
     let date = new Date(e.target.value);
     if (allItems) {
-      setItems(
-        allItems.map((item) => {
-          if (item.itemId === targetId) {
-            if (item.enddate && item.enddate.getTime() < date.getTime()) {
-              liveAlert(
-                "Error: Start date can not later than end date.",
-                "danger"
-              );
-              return item;
-            } else {
-              return { ...item, startdate: date };
-            }
-          } else {
+      let updateItems = allItems.map((item) => {
+        if (item.itemId === targetId) {
+          if (item.enddate && item.enddate.getTime() < date.getTime()) {
+            liveAlert(
+              "Error: Start date can not later than end date.",
+              "danger"
+            );
             return item;
+          } else {
+            return { ...item, startdate: date };
           }
-        })
-      );
+        } else {
+          return item;
+        }
+      });
+      setItems(updateItems);
+      updateLocalStorageData("items", updateItems);
     }
   };
   const handleChangeEndDate = (e) => {
     let date = new Date(e.target.value);
     if (allItems) {
-      setItems(
-        allItems.map((item) => {
-          if (item.itemId === targetId) {
-            if (item.startdate && item.startdate.getTime() > date.getTime()) {
-              liveAlert(
-                "Error: End date can not earlier than end date.",
-                "danger"
-              );
-              return item;
-            } else {
-              return { ...item, enddate: date };
-            }
-          } else {
+      let updateItems = allItems.map((item) => {
+        if (item.itemId === targetId) {
+          if (item.startdate && item.startdate.getTime() > date.getTime()) {
+            liveAlert(
+              "Error: End date can not earlier than end date.",
+              "danger"
+            );
             return item;
+          } else {
+            return { ...item, enddate: date };
           }
-        })
-      );
+        } else {
+          return item;
+        }
+      });
+      setItems(updateItems);
+      updateLocalStorageData("items", updateItems);
     }
   };
   const deleteHandler = () => {
-    setItems(allItems.filter((item) => item.itemId !== targetId));
+    let updateItems = allItems.filter((item) => item.itemId !== targetId);
+    setItems(updateItems);
+    updateLocalStorageData("items", updateItems);
     setWorkNum(workNum - 1);
+    updateLocalStorageData("workNum", workNum - 1);
   };
 
   const dataBsTarget = "#" + targetId;
@@ -291,15 +302,15 @@ function WorkItemDetail(props) {
       newjobtype = ["Generalist"];
     }
     if (allItems) {
-      setItems(
-        allItems.map((item) => {
-          if (item.itemId === targetId) {
-            return { ...item, jobtype: newjobtype };
-          } else {
-            return item;
-          }
-        })
-      );
+      let updateItems = allItems.map((item) => {
+        if (item.itemId === targetId) {
+          return { ...item, jobtype: newjobtype };
+        } else {
+          return item;
+        }
+      });
+      setItems(updateItems);
+      updateLocalStorageData("items", updateItems);
     }
   };
 
@@ -307,15 +318,15 @@ function WorkItemDetail(props) {
     let addingType = e.target.parentElement.innerText;
     let newjobtype = jobtype.filter((typeItem) => typeItem !== addingType);
     if (allItems) {
-      setItems(
-        allItems.map((item) => {
-          if (item.itemId === targetId) {
-            return { ...item, jobtype: newjobtype };
-          } else {
-            return item;
-          }
-        })
-      );
+      let updateItems = allItems.map((item) => {
+        if (item.itemId === targetId) {
+          return { ...item, jobtype: newjobtype };
+        } else {
+          return item;
+        }
+      });
+      setItems(updateItems);
+      updateLocalStorageData("items", updateItems);
     }
   };
 
@@ -324,15 +335,15 @@ function WorkItemDetail(props) {
     let newTechTags = techTags.filter((tag) => tag !== tech);
     newTechTags.push(tech);
     if (allItems) {
-      setItems(
-        allItems.map((item) => {
-          if (item.itemId === targetId) {
-            return { ...item, techTags: newTechTags };
-          } else {
-            return item;
-          }
-        })
-      );
+      let updateItems = allItems.map((item) => {
+        if (item.itemId === targetId) {
+          return { ...item, techTags: newTechTags };
+        } else {
+          return item;
+        }
+      });
+      setItems(updateItems);
+      updateLocalStorageData("items", updateItems);
     }
   };
 
@@ -340,15 +351,15 @@ function WorkItemDetail(props) {
     let tech = e.target.parentElement.innerText;
     let newTechTags = techTags.filter((tag) => tag !== tech);
     if (allItems) {
-      setItems(
-        allItems.map((item) => {
-          if (item.itemId === targetId) {
-            return { ...item, techTags: newTechTags };
-          } else {
-            return item;
-          }
-        })
-      );
+      let updateItems = allItems.map((item) => {
+        if (item.itemId === targetId) {
+          return { ...item, techTags: newTechTags };
+        } else {
+          return item;
+        }
+      });
+      setItems(updateItems);
+      updateLocalStorageData("items", updateItems);
     }
   };
 
