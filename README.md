@@ -9,7 +9,5 @@ Run this command to deploy
 $ npm run deploy
 ```
 
-[Deploy method](github.com/gitname/react-gh-pages)
-
 ## Features
 ![Main Feature](/images/mainfeature.jpg)
